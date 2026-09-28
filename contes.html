@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Contes Illustrés</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Georgia', serif;
+    background: linear-gradient(135deg, #fdf6e3, #f0e6d2);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+  }
+  .app { max-width: 700px; width: 100%; }
+  h1 { text-align: center; color: #6b4226; }
+  .story-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+  .story-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    padding: 15px;
+    width: 200px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .story-card:hover { transform: scale(1.05); }
+  .story-card img {
+    width: 100%;
+    border-radius: 8px;
+    height: 130px;
+    object-fit: cover;
+  }
+  .reader {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    padding: 25px;
+    display: none;
+  }
+  .reader.active { display: block; }
+  .lang-choice { text-align: center; margin-bottom: 20px; }
+  .lang-choice button {
+    margin: 0 8px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    background: #6b4226;
+    color: white;
+    cursor: pointer;
+  }
+  .lang-choice button:hover { background: #8a5a34; }
+  .page { text-align: center; }
+  .page img {
+    max-width: 100%;
+    border-radius: 12px;
+    margin-bottom: 15px;
+  }
+  .page p { font-size: 18px; line-height: 1.6; color: #444; }
+  audio { width: 100%; margin-top: 15px; }
+  .back-btn {
+    display: block;
+    margin: 20px auto 0;
+    background: #999;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .nav-btns {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+  }
+  .nav-btns button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    background: #6b4226;
+    color: white;
+    cursor: pointer;
+  }
+  .nav-btns button:disabled { background: #ccc; cursor: default; }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <h1>📖 Contes Illustrés</h1>
+
+  <div class="story-list" id="storyList"></div>
+
+  <div class="reader" id="reader">
+    <div class="lang-choice" id="langChoice">
+      <p><strong id="storyTitle"></strong></p>
+      <button onclick="chooseLang('fr')">🇫🇷 Français</button>
+      <button onclick="chooseLang('en')">🇬🇧 English</button>
+    </div>
+
+    <div class="page" id="page" style="display:none;"></div>
+
+    <div class="nav-btns" id="navBtns" style="display:none;">
+      <button id="prevBtn">⬅ Précédent</button>
+      <button id="nextBtn">Suivant ➡</button>
+    </div>
+
+    <button class="back-btn" onclick="goBack()">⬅ Retour à la liste</button>
+  </div>
+</div>
+
+<script>
+// ----- DONNÉES DES HISTOIRES -----
+// Pour l'instant les images/audios sont des liens d'exemple.
+// Tu pourras les remplacer par tes propres fichiers plus tard.
+
+const stories = [
+  {
+    id: "renard",
+    title: { fr: "Le Petit Renard", en: "The Little Fox" },
+    cover: "https://placehold.co/200x130?text=Renard",
+    pages: [
+      {
+        image: "https://placehold.co/500x300?text=Page+1",
+        text: {
+          fr: "Il était une fois un petit renard qui vivait dans la forêt.",
+          en: "Once upon a time, there was a little fox who lived in the forest."
+        },
+        audio: { fr: "", en: "" }
+      },
+      {
+        image: "https://placehold.co/500x300?text=Page+2",
+        text: {
+          fr: "Un jour, il décida de partir à l'aventure.",
+          en: "One day, he decided to go on an adventure."
+        },
+        audio: { fr: "", en: "" }
+      }
+    ]
+  }
+];
+
+// ----- AFFICHAGE DE LA LISTE -----
+const storyListEl = document.getElementById('storyList');
+
+function renderStoryList() {
+  storyListEl.innerHTML = '';
+  stories.forEach(story => {
+    const card = document.createElement('div');
+    card.className = 'story-card';
+    card.innerHTML = `
+      <img src="${story.cover}" alt="${story.title.fr}">
+      <p>${story.title.fr} / ${story.title.en}</p>
+    `;
+    card.onclick = () => openStory(story);
+    storyListEl.appendChild(card);
+  });
+}
+
+// ----- OUVERTURE D'UNE HISTOIRE -----
+let currentStory = null;
+let currentLang = null;
+let currentPage = 0;
+
+function openStory(story) {
+  currentStory = story;
+  currentLang = null;
+  currentPage = 0;
+
+  document.getElementById('storyTitle').textContent =
+    story.title.fr + " / " + story.title.en;
+
+  document.getElementById('langChoice').style.display = 'block';
+  document.getElementById('page').style.display = 'none';
+  document.getElementById('navBtns').style.display = 'none';
+
+  storyListEl.style.display = 'none';
+  document.getElementById('reader').classList.add('active');
+}
+
+// ----- CHOIX DE LA LANGUE -----
+function chooseLang(lang) {
+  currentLang = lang;
+  currentPage = 0;
+  document.getElementById('langChoice').style.display = 'none';
+  document.getElementById('page').style.display = 'block';
+  document.getElementById('navBtns').style.display = 'flex';
+  renderPage();
+}
+
+// ----- AFFICHAGE D'UNE PAGE -----
+function renderPage() {
+  const story = currentStory;
+  const page = story.pages[currentPage];
+  const pageEl = document.getElementById('page');
+
+  let audioHtml = '';
+  if (page.audio[currentLang]) {
+    audioHtml = `<audio controls autoplay src="${page.audio[currentLang]}"></audio>`;
+  } else {
+    audioHtml = `<p style="color:#aaa;">(Pas encore d'audio pour cette page)</p>`;
+  }
+
+  pageEl.innerHTML = `
+    <img src="${page.image}" alt="illustration">
+    <p>${page.text[currentLang]}</p>
+    ${audioHtml}
+    <p style="color:#999; font-size:14px;">Page ${currentPage + 1} / ${story.pages.length}</p>
+  `;
+
+  document.getElementById('prevBtn').disabled = currentPage === 0;
+  document.getElementById('nextBtn').disabled = currentPage === story.pages.length - 1;
+}
+
+document.getElementById('prevBtn').onclick = () => {
+  if (currentPage > 0) {
+    currentPage--;
+    renderPage();
+  }
+};
+document.getElementById('nextBtn').onclick = () => {
+  if (currentPage < currentStory.pages.length - 1) {
+    currentPage++;
+    renderPage();
+  }
+};
+
+// ----- RETOUR -----
+function goBack() {
+  document.getElementById('reader').classList.remove('active');
+  storyListEl.style.display = 'flex';
+  currentStory = null;
+}
+
+// ----- INITIALISATION -----
+renderStoryList();
+</script>
+
+</body>
+</html>
