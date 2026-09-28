@@ -9,12 +9,12 @@
   img { max-width: 90%; border-radius: 12px; margin: 15px 0; }
   button { padding: 10px 20px; margin: 5px; border-radius: 8px; border: none; background: #4CAF50; color: white; font-size: 16px; cursor: pointer; }
   button:hover { background: #45a049; }
-  #story-text { max-width: 600px; margin: 20px auto; font-size: 18px; line-height: 1.6; }
+  #story-text { max-width: 600px; margin: 20px auto; font-size: 18px; line-height: 1.6; white-space: pre-line; text-align: left; }
 </style>
 </head>
 <body>
 
-<h1>📖 Mon Conte Illustré</h1>
+<h1>📖 Lila, la petite étoile</h1>
 
 <div id="language-buttons">
   <button onclick="loadLanguage('fr')">🇫🇷 Français</button>
@@ -29,36 +29,229 @@
 <div id="images-container"></div>
 
 <script>
-// 🌍 STRUCTURE DES LANGUES — ajoute ici de nouvelles langues facilement
 const stories = {
   fr: {
-    text: "Il était une fois, dans une forêt lointaine, une petite étoile qui avait peur du noir...",
+    text: `Chaque soir, quand le soleil allait se coucher, les étoiles s'allumaient une à une dans le ciel.
+
+Toutes… sauf Lila.
+
+Lila était une toute petite étoile. Elle brillait si doucement qu'elle avait peur qu'on ne la voie pas. Et puis, elle avait peur du noir.
+
+— Comment peux-tu avoir peur de la nuit, si tu es une étoile ? demanda une luciole en voletant près d'elle.
+
+— Justement, répondit Lila. La nuit est si grande… et moi, je suis si petite.
+
+La luciole fit clignoter sa lumière.
+
+— Regarde ! Moi aussi, je suis petite. Mais je peux éclairer juste assez pour trouver mon chemin.
+
+Lila essaya de briller. Une minuscule étincelle apparut… puis s'éteignit.
+
+Un hibou passa près d'elle, en battant doucement des ailes.
+
+— Hou-hou ! La nuit n'est pas vide, dit-il. Écoute.
+
+Lila tendit l'oreille. Elle entendit le vent dans les feuilles, le chant d'un grillon et le bruit paisible d'un ruisseau.
+
+La nuit n'était peut-être pas si effrayante, après tout.
+
+En bas, dans un petit chemin, un garçon nommé Émile rentrait chez lui. Mais un gros nuage cachait la lune, et Émile ne voyait presque plus où il allait.
+
+— Oh non… Je ne retrouve plus le chemin ! murmura-t-il.
+
+La luciole vola jusqu'à lui, mais sa petite lumière ne suffisait pas. Le hibou essaya de montrer la direction, mais Émile ne le distinguait pas dans l'obscurité.
+
+Alors Lila pensa à tous ceux qui l'avaient aidée. Elle prit une grande inspiration… et fit briller toute sa lumière.
+
+Une lueur douce éclaira le sentier, juste assez pour montrer à Émile le chemin jusqu'à sa maison.
+
+— Merci, petite étoile ! cria-t-il en agitant la main.
+
+Lila sourit. Elle n'était peut-être pas la plus brillante du ciel, mais sa lumière avait compté.
+
+Depuis cette nuit-là, Lila n'eut plus peur du noir. Elle savait qu'on pouvait être petite… et faire une grande différence.
+
+Et chaque soir, elle brillait tout doucement, pour tous ceux qui avaient besoin d'un peu de lumière.`,
     audio: "histoire1_fr.mp3"
   },
   en: {
-    text: "Once upon a time, in a distant forest, a little star was afraid of the dark...",
+    text: `Every evening, when the sun went down, the stars lit up one by one in the sky.
+
+All of them… except Lila.
+
+Lila was a very small star. She shone so softly that she was afraid no one would see her. And besides, she was afraid of the dark.
+
+"How can you be afraid of the night, if you're a star?" asked a firefly, fluttering near her.
+
+"That's exactly why," replied Lila. "The night is so big… and I'm so small."
+
+The firefly flickered her light.
+
+"Look! I'm small too. But I can light up just enough to find my way."
+
+Lila tried to shine. A tiny spark appeared… then faded away.
+
+An owl flew by, gently flapping its wings.
+
+"Hoo-hoo! The night isn't empty," he said. "Listen."
+
+Lila listened closely. She heard the wind in the leaves, a cricket singing, and the peaceful sound of a stream.
+
+Maybe the night wasn't so scary after all.
+
+Down below, on a small path, a boy named Emile was walking home. But a big cloud was hiding the moon, and Emile could barely see where he was going.
+
+"Oh no… I can't find my way!" he whispered.
+
+The firefly flew to him, but her tiny light wasn't enough. The owl tried to show the direction, but Emile couldn't see him in the darkness.
+
+So Lila thought of everyone who had helped her. She took a deep breath… and let all her light shine.
+
+A soft glow lit up the path, just enough to show Emile the way home.
+
+"Thank you, little star!" he shouted, waving his hand.
+
+Lila smiled. She might not be the brightest star in the sky, but her light had mattered.
+
+From that night on, Lila was never afraid of the dark again. She knew that you could be small… and still make a big difference.
+
+And every evening, she shone gently, for everyone who needed a little light.`,
     audio: "histoire1_en.mp3"
   },
   es: {
-    text: "Había una vez, en un bosque lejano, una pequeña estrella que tenía miedo de la oscuridad...",
+    text: `Cada noche, cuando el sol se ponía, las estrellas se encendían una a una en el cielo.
+
+Todas… menos Lila.
+
+Lila era una estrella muy pequeña. Brillaba tan suavemente que temía que nadie la viera. Además, tenía miedo de la oscuridad.
+
+—¿Cómo puedes tener miedo de la noche, si eres una estrella? —preguntó una luciérnaga revoloteando cerca de ella.
+
+—Precisamente por eso —respondió Lila—. La noche es tan grande… y yo soy tan pequeña.
+
+La luciérnaga hizo parpadear su luz.
+
+—¡Mira! Yo también soy pequeña. Pero puedo iluminar lo suficiente para encontrar mi camino.
+
+Lila intentó brillar. Apareció una diminuta chispa… y luego se apagó.
+
+Un búho pasó cerca de ella, batiendo suavemente sus alas.
+
+—¡Uhu! La noche no está vacía —dijo—. Escucha.
+
+Lila prestó atención. Escuchó el viento en las hojas, el canto de un grillo y el sonido tranquilo de un arroyo.
+
+Tal vez la noche no era tan aterradora, después de todo.
+
+Más abajo, en un pequeño camino, un niño llamado Emile regresaba a casa. Pero una gran nube ocultaba la luna, y Emile apenas podía ver por dónde caminaba.
+
+—Oh no… ¡No encuentro el camino! —susurró.
+
+La luciérnaga voló hacia él, pero su pequeña luz no era suficiente. El búho intentó mostrarle la dirección, pero Emile no podía verlo en la oscuridad.
+
+Entonces Lila pensó en todos los que la habían ayudado. Tomó una gran bocanada de aire… e hizo brillar toda su luz.
+
+Un suave resplandor iluminó el sendero, lo justo para mostrarle a Emile el camino a casa.
+
+—¡Gracias, pequeña estrella! —gritó él, agitando la mano.
+
+Lila sonrió. Tal vez no era la más brillante del cielo, pero su luz había importado.
+
+Desde esa noche, Lila nunca más tuvo miedo de la oscuridad. Sabía que se podía ser pequeña… y aun así, hacer una gran diferencia.
+
+Y cada noche, brillaba suavemente, para todos los que necesitaban un poco de luz.`,
     audio: "histoire1_es.mp3"
   },
   it: {
-    text: "C'era una volta, in una foresta lontana, una piccola stella che aveva paura del buio...",
+    text: `Ogni sera, quando il sole tramontava, le stelle si accendevano una dopo l'altra nel cielo.
+
+Tutte… tranne Lila.
+
+Lila era una stella molto piccola. Brillava così debolmente che temeva di non essere vista. E poi, aveva paura del buio.
+
+— Come puoi avere paura della notte, se sei una stella? — chiese una lucciola, svolazzando vicino a lei.
+
+— Proprio per questo — rispose Lila. — La notte è così grande… e io sono così piccola.
+
+La lucciola fece lampeggiare la sua luce.
+
+— Guarda! Anch'io sono piccola. Ma posso illuminare quel tanto che basta per trovare la strada.
+
+Lila provò a brillare. Apparve una minuscola scintilla… poi si spense.
+
+Un gufo passò vicino a lei, sbattendo dolcemente le ali.
+
+— Hu-hu! La notte non è vuota — disse. — Ascolta.
+
+Lila tese l'orecchio. Sentì il vento tra le foglie, il canto di un grillo e il suono tranquillo di un ruscello.
+
+Forse la notte non era poi così spaventosa.
+
+Più in basso, su un piccolo sentiero, un bambino di nome Emile stava tornando a casa. Ma una grande nuvola nascondeva la luna, e Emile riusciva a malapena a vedere dove stava andando.
+
+— Oh no… Non trovo più la strada! — sussurrò.
+
+La lucciola volò verso di lui, ma la sua piccola luce non bastava. Il gufo cercò di indicargli la direzione, ma Emile non riusciva a vederlo nel buio.
+
+Allora Lila pensò a tutti quelli che l'avevano aiutata. Fece un respiro profondo… e fece brillare tutta la sua luce.
+
+Un dolce bagliore illuminò il sentiero, quel tanto che bastava per mostrare a Emile la strada di casa.
+
+— Grazie, piccola stella! — gridò lui, agitando la mano.
+
+Lila sorrise. Forse non era la stella più brillante del cielo, ma la sua luce aveva contato.
+
+Da quella notte, Lila non ebbe più paura del buio. Sapeva che si poteva essere piccoli… e fare comunque una grande differenza.
+
+E ogni sera, brillava dolcemente, per tutti coloro che avevano bisogno di un po' di luce.`,
     audio: "histoire1_it.mp3"
   },
   zh: {
-    text: "从前，在遥远的森林里，有一颗害怕黑暗的小星星...",
+    text: `每天傍晚，当太阳落山时，星星们会一颗接一颗地在天空中亮起来。
+
+所有的星星……除了莉拉。
+
+莉拉是一颗非常小的星星。她发出的光非常柔和，她担心没有人能看见她。而且，她害怕黑暗。
+
+"你是一颗星星，怎么会害怕夜晚呢？"一只萤火虫在她身边飞舞着问道。
+
+"正因为如此，"莉拉回答说。"夜晚这么大……而我这么小。"
+
+萤火虫闪烁着自己的光。
+
+"看！我也很小。但我能发出足够的光，帮我找到路。"
+
+莉拉试着发光。一个微小的火花出现了……然后又熄灭了。
+
+一只猫头鹰飞过她身边，轻轻地扇动着翅膀。
+
+"呼呼！夜晚并不是空的，"他说。"你听。"
+
+莉拉仔细聆听。她听到了树叶间的风声、蟋蟀的歌声，还有小溪平静的流水声。
+
+也许夜晚并没有那么可怕。
+
+在下面的小路上，一个叫埃米尔的男孩正走在回家的路上。但一大片乌云遮住了月亮，埃米尔几乎看不清前方的路。
+
+"哦，不……我找不到路了！"他小声说道。
+
+萤火虫飞到他身边，但她微弱的光芒不够用。猫头鹰试图为他指路，但埃米尔在黑暗中看不见他。
+
+于是，莉拉想起了所有帮助过她的朋友。她深深吸了一口气……然后让自己所有的光芒都闪耀起来。
+
+一道柔和的光照亮了小路，刚好足够让埃米尔看清回家的路。
+
+"谢谢你，小星星！"他挥着手喊道。
+
+莉拉微笑了。也许她不是天空中最亮的星星，但她的光芒意义重大。
+
+从那晚起，莉拉再也不怕黑暗了。她明白了，即使很渺小……也能带来巨大的改变。
+
+从此，每个夜晚，她都会温柔地发光，为所有需要一点光亮的人。`,
     audio: "histoire1_zh.mp3"
   }
-  // 👉 Pour ajouter une langue plus tard, copie ce modèle :
-  // de: {
-  //   text: "Es war einmal...",
-  //   audio: "histoire1_de.mp3"
-  // }
 };
 
-// 🖼️ IMAGES — communes à toutes les langues
 const images = [
   "histoire1_image1.jpg",
   "histoire1_image2.jpg",
