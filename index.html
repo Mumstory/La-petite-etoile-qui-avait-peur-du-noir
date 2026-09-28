@@ -1,228 +1,277 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Des contes illustrés à lire et à écouter en français et en anglais.">
-  <title>Les petits contes de lune</title>
-  <style>
-    :root {
-      --ink: #24324a;
-      --muted: #657089;
-      --cream: #fffaf0;
-      --paper: #fffdf8;
-      --peach: #f7cbbd;
-      --peach-dark: #b9685b;
-      --blue: #cfe4ed;
-      --blue-dark: #436b80;
-      --yellow: #f6df9d;
-      --line: rgba(56, 74, 103, .14);
-      --shadow: 0 20px 55px rgba(63, 75, 97, .14);
-    }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      color: var(--ink);
-      background:
-        radial-gradient(circle at 12% 18%, rgba(246, 223, 157, .38) 0 5rem, transparent 5.1rem),
-        radial-gradient(circle at 88% 8%, rgba(207, 228, 237, .65) 0 10rem, transparent 10.1rem),
-        var(--cream);
-      font-family: "Trebuchet MS", "Gill Sans", sans-serif;
-      line-height: 1.65;
-    }
-
-    body::before {
-      content: "";
-      position: fixed; inset: 0; pointer-events: none; opacity: .2;
-      background-image: radial-gradient(rgba(36, 50, 74, .12) .6px, transparent .6px);
-      background-size: 8px 8px;
-      mix-blend-mode: multiply;
-    }
-
-    .shell { width: min(1120px, calc(100% - 32px)); margin: auto; }
-    header { padding: 26px 0 12px; display: flex; justify-content: space-between; align-items: center; gap: 24px; }
-    .brand { display: flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; font-weight: 800; letter-spacing: .02em; }
-    .brand-mark { width: 43px; height: 43px; display: grid; place-items: center; background: var(--yellow); border-radius: 48% 52% 45% 55%; font-size: 1.35rem; transform: rotate(-8deg); box-shadow: 4px 5px 0 rgba(185,104,91,.12); }
-    .brand span:last-child { font-size: .95rem; }
-    .language-picker { display: flex; gap: 6px; padding: 5px; background: rgba(255,255,255,.62); border: 1px solid var(--line); border-radius: 999px; box-shadow: 0 5px 18px rgba(63,75,97,.07); }
-    .lang-button { border: 0; border-radius: 999px; padding: 9px 15px; background: transparent; color: var(--muted); cursor: pointer; font: inherit; font-size: .85rem; font-weight: 800; transition: .2s ease; }
-    .lang-button:hover, .lang-button:focus-visible { color: var(--ink); background: var(--blue); outline: none; }
-    .lang-button[aria-pressed="true"] { background: var(--ink); color: #fffdf8; box-shadow: 0 3px 9px rgba(36,50,74,.18); }
-
-    .hero { position: relative; padding: 70px 8% 68px; min-height: 360px; display: grid; align-items: center; overflow: hidden; border-radius: 32px; background: linear-gradient(124deg, #f8d3c7 0%, #fce9d5 52%, #dcecf0 100%); box-shadow: var(--shadow); }
-    .hero::after { content: "☾"; position: absolute; right: 8%; top: 22px; color: rgba(255,255,255,.72); font-size: 11rem; line-height: 1; transform: rotate(-16deg); }
-    .hero-copy { position: relative; z-index: 1; max-width: 620px; }
-    .eyebrow { margin: 0 0 12px; text-transform: uppercase; letter-spacing: .18em; font-size: .72rem; font-weight: 800; color: var(--peach-dark); }
-    h1, h2 { font-family: Georgia, "Times New Roman", serif; font-weight: 400; line-height: 1.08; }
-    h1 { margin: 0 0 19px; max-width: 650px; color: var(--ink); font-size: clamp(2.5rem, 7vw, 5.2rem); letter-spacing: -.045em; }
-    .hero-intro { margin: 0; max-width: 450px; font-size: 1.05rem; color: #46566d; }
-
-    main { padding: 62px 0 82px; }
-    .story-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(280px, .95fr); gap: clamp(28px, 6vw, 74px); align-items: start; }
-    .story-heading { margin: 0 0 12px; font-size: clamp(2rem, 4vw, 3.5rem); letter-spacing: -.04em; }
-    .story-kicker { margin: 0 0 30px; color: var(--muted); font-size: .9rem; }
-    .text-flow { font-family: Georgia, "Times New Roman", serif; font-size: clamp(1.05rem, 1.7vw, 1.19rem); }
-    .text-flow p { margin: 0 0 1.25em; }
-    .text-flow p:first-child::first-letter { float: left; padding: .03em .12em 0 0; color: var(--peach-dark); font-size: 3.7em; line-height: .8; }
-    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
-
-    .art-column { position: sticky; top: 22px; }
-    .art-card { margin: 0; padding: 13px; background: rgba(255,255,255,.72); border: 1px solid rgba(255,255,255,.8); border-radius: 24px; box-shadow: 0 14px 36px rgba(63,75,97,.1); }
-    .art-frame { position: relative; min-height: 360px; display: grid; place-items: center; overflow: hidden; border-radius: 17px; background: linear-gradient(160deg, #d7eaf0, #f7d2c9 66%, #f5e3a8); }
-    .art-frame::before, .art-frame::after { content: ""; position: absolute; border: 2px solid rgba(255,255,255,.72); border-radius: 50%; }
-    .art-frame::before { width: 270px; height: 270px; transform: translate(38px, 35px); }
-    .art-frame::after { width: 185px; height: 185px; transform: translate(-80px, -75px); }
-    .art-emoji { position: relative; z-index: 1; font-size: 6.5rem; filter: drop-shadow(0 10px 3px rgba(67,107,128,.14)); animation: float 5s ease-in-out infinite; }
-    @keyframes float { 50% { transform: translateY(-9px) rotate(2deg); } }
-    .art-placeholder { position: absolute; left: 22px; right: 22px; bottom: 15px; z-index: 2; padding: 6px 9px; border-radius: 8px; color: rgba(36,50,74,.58); background: rgba(255,255,255,.57); font: 700 .68rem/1.2 "Trebuchet MS", sans-serif; text-align: center; }
-    .art-caption { padding: 13px 7px 3px; color: var(--muted); font-size: .78rem; text-align: center; }
-    .audio-box { margin-top: 16px; padding: 16px 18px; display: flex; align-items: center; gap: 12px; background: #fff; border: 1px solid var(--line); border-radius: 16px; }
-    .audio-icon { display: grid; place-items: center; width: 33px; height: 33px; flex: 0 0 33px; border-radius: 50%; background: var(--yellow); }
-    .audio-copy { min-width: 0; }
-    .audio-copy strong { display: block; font-size: .82rem; }
-    .audio-copy small { display: block; color: var(--muted); font-size: .72rem; }
-
-    footer { padding: 22px 0 35px; border-top: 1px solid var(--line); color: var(--muted); font-size: .78rem; text-align: center; }
-    .fade-in { animation: appear .7s ease both; }
-    @keyframes appear { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
-    @media (max-width: 760px) {
-      header { align-items: flex-start; flex-direction: column; }
-      .language-picker { align-self: stretch; justify-content: center; }
-      .lang-button { flex: 1; }
-      .hero { padding: 44px 27px 120px; min-height: 410px; border-radius: 25px; }
-      .hero::after { right: 10%; top: auto; bottom: -22px; font-size: 9rem; }
-      main { padding-top: 44px; }
-      .story-grid { grid-template-columns: 1fr; }
-      .art-column { position: static; grid-row: 1; }
-      .art-frame { min-height: 245px; }
-    }
-    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; scroll-behavior: auto !important; } }
-  </style>
+<meta charset="UTF-8">
+<title>Contes Illustrés</title>
+<style>
+  body { font-family: Arial, sans-serif; text-align: center; background: #fdf6e3; }
+  h1 { color: #333; }
+  img { max-width: 90%; border-radius: 12px; margin: 15px 0; }
+  button { padding: 10px 20px; margin: 5px; border-radius: 8px; border: none; background: #4CAF50; color: white; font-size: 16px; cursor: pointer; }
+  button:hover { background: #45a049; }
+  #story-text { max-width: 600px; margin: 20px auto; font-size: 18px; line-height: 1.6; white-space: pre-line; text-align: left; }
+</style>
 </head>
 <body>
-  <div class="shell">
-    <header>
-      <a class="brand" href="#top" aria-label="Retour à l'accueil"><span class="brand-mark">✦</span><span>Les petits contes de lune</span></a>
-      <nav class="language-picker" aria-label="Choisir la langue">
-        <button class="lang-button" type="button" data-lang="fr" aria-pressed="true">Français</button>
-        <button class="lang-button" type="button" data-lang="en" aria-pressed="false">English</button>
-      </nav>
-    </header>
 
-    <section class="hero fade-in" id="top" aria-labelledby="hero-title">
-      <div class="hero-copy">
-        <p class="eyebrow" id="hero-eyebrow">Un conte tout doux</p>
-        <h1 id="hero-title">La petite toile qui avait peur du noir</h1>
-        <p class="hero-intro" id="hero-intro">Une histoire de courage, de lumière et de petites choses qui brillent dans la nuit.</p>
-      </div>
-    </section>
+<h1>📖 Lila, la petite étoile</h1>
 
-    <main>
-      <div class="story-grid">
-        <article class="story-copy" aria-labelledby="story-heading">
-          <p class="eyebrow" id="story-label">À lire doucement</p>
-          <h2 class="story-heading" id="story-heading">La petite toile qui avait peur du noir</h2>
-          <p class="story-kicker" id="story-kicker">Un conte illustré · 3 minutes de lecture</p>
-          <div class="text-flow" id="story-text" aria-live="polite"></div>
-        </article>
+<div id="language-buttons">
+  <button onclick="loadLanguage('fr')">🇫🇷 Français</button>
+  <button onclick="loadLanguage('en')">🇬🇧 English</button>
+  <button onclick="loadLanguage('es')">🇪🇸 Español</button>
+  <button onclick="loadLanguage('it')">🇮🇹 Italiano</button>
+  <button onclick="loadLanguage('zh')">🇨🇳 中文</button>
+</div>
 
-        <aside class="art-column" aria-label="Illustration et audio">
-          <figure class="art-card">
-            <div class="art-frame">
-              <!--
-                IMAGE À REMPLACER : déposez vos images dans un dossier « images » à la racine du dépôt GitHub.
-                Pour chaque page, remplacez le chemin dans le tableau « contes » ci-dessous
-                (exemple : images/histoire1-page1.jpg). Cette illustration emoji reste visible en attendant.
-              -->
-              <img id="story-image" src="images/histoire1-page1.jpg" alt="" hidden>
-              <span class="art-emoji" aria-hidden="true">🕸️</span>
-              <span class="art-placeholder" id="image-path">Image à venir · images/histoire1-page1.jpg</span>
-            </div>
-            <figcaption class="art-caption" id="image-caption">Une petite toile sous un ciel plein d'étoiles</figcaption>
-          </figure>
-          <div class="audio-box">
-            <span class="audio-icon" aria-hidden="true">♫</span>
-            <div class="audio-copy"><strong id="audio-title">Écouter le conte</strong><small id="audio-note">Ajoutez bientôt votre enregistrement</small></div>
-          </div>
-          <!-- AUDIO À ACTIVER PLUS TARD : retirez les commentaires et remplacez le fichier dans contes[].audio. -->
-          <!-- <audio id="story-audio" controls preload="none"><source src="audio/histoire1-fr.mp3" type="audio/mpeg"></audio> -->
-        </aside>
-      </div>
-    </main>
+<div id="story-text">Choisis une langue pour commencer.</div>
+<audio id="audio-player" controls style="margin-top:20px;"></audio>
+<div id="images-container"></div>
 
-    <footer>Un petit refuge pour les histoires qui aiment voyager. ✦</footer>
-  </div>
+<script>
+const stories = {
+  fr: {
+    text: `Chaque soir, quand le soleil allait se coucher, les étoiles s'allumaient une à une dans le ciel.
 
-  <script>
-    /*
-      AJOUTER UNE HISTOIRE OU UNE LANGUE : copiez un objet dans ce tableau.
-      - title : le titre affiché dans la page
-      - text : un tableau de paragraphes, un paragraphe par chaîne
-      - images : les chemins des images à déposer dans votre dépôt GitHub
-      - audio : les chemins des fichiers MP3 (un par langue), à ajouter plus tard
-    */
-    const contes = [
-      {
-        id: "histoire1",
-        title: { fr: "La petite toile qui avait peur du noir", en: "The Little Web That Was Afraid of the Dark" },
-        intro: { fr: "Une histoire de courage, de lumière et de petites choses qui brillent dans la nuit.", en: "A story about courage, light, and the little things that sparkle in the night." },
-        label: { fr: "À lire doucement", en: "A gentle read" },
-        imageCaption: { fr: "Une petite toile sous un ciel plein d'étoiles", en: "A little web beneath a sky full of stars" },
-        text: {
-          fr: [
-            "Au creux d'un vieux rosier, une minuscule araignée tissait sa première toile. Elle l'appelait Filou, même si Filou n'était pas très sûr de lui.",
-            "Chaque soir, quand le soleil disparaissait, Filou se cachait sous une feuille. Le noir lui semblait immense, et la moindre ombre faisait trembler ses huit petites pattes.",
-            "Une nuit, la lune se glissa derrière un nuage. Filou entendit alors une petite voix : « Je suis là. Tu peux commencer par un seul fil. »",
-            "Alors Filou inspira doucement. Il lança un fil vers la branche voisine, puis un autre. Chaque fil attrapait une goutte de lumière laissée par les étoiles.",
-            "Bientôt, sa toile brillait comme un petit ciel. Les lucioles vinrent danser autour d'elle, et le noir ne parut plus si grand.",
-            "Depuis ce soir-là, Filou n'a plus besoin d'allumer la lune. Il sait que, même dans la nuit, un tout petit fil peut trouver son chemin.",
-            "Et si tu regardes bien par ta fenêtre, peut-être verras-tu sa toile saluer les rêveurs avant leur sommeil."
-          ],
-          en: [
-            "In the heart of an old rosebush, a tiny spider was weaving her very first web. Her name was Filou, though Filou did not feel very brave.",
-            "Every evening, when the sun slipped away, Filou hid beneath a leaf. The dark felt enormous, and every shadow made her eight little legs tremble.",
-            "One night, the moon hid behind a cloud. Then Filou heard a tiny voice: “I am here. You can begin with just one thread.”",
-            "So Filou took a slow breath. She sent one thread to the branch beside her, then another. Each thread caught a drop of light left by the stars.",
-            "Soon, her web shimmered like a little sky. Fireflies came to dance around it, and the dark did not seem so big anymore.",
-            "From that night on, Filou never needed to switch on the moon. She knew that even in the dark, one tiny thread can find its way.",
-            "And if you look carefully by your window, perhaps you will see her web waving to dreamers before they fall asleep."
-          ]
-        },
-        /* NOMS DES FICHIERS AUDIO À PRÉPARER : audio/histoire1-fr.mp3 et audio/histoire1-en.mp3 */
-        audio: { fr: "audio/histoire1-fr.mp3", en: "audio/histoire1-en.mp3" },
-        /* NOMS DES IMAGES À PRÉPARER : images/histoire1-page1.jpg, images/histoire1-page2.jpg, etc. */
-        images: ["images/histoire1-page1.jpg", "images/histoire1-page2.jpg", "images/histoire1-page3.jpg"]
-      }
-    ];
+Toutes… sauf Lila.
 
-    const conte = contes[0];
-    const elements = {
-      html: document.documentElement,
-      heroTitle: document.querySelector("#hero-title"), heroIntro: document.querySelector("#hero-intro"),
-      storyLabel: document.querySelector("#story-label"), storyHeading: document.querySelector("#story-heading"),
-      storyText: document.querySelector("#story-text"), imageCaption: document.querySelector("#image-caption"),
-      imagePath: document.querySelector("#image-path"), audioNote: document.querySelector("#audio-note"),
-      buttons: document.querySelectorAll(".lang-button")
-    };
+Lila était une toute petite étoile. Elle brillait si doucement qu'elle avait peur qu'on ne la voie pas. Et puis, elle avait peur du noir.
 
-    function renderLanguage(lang) {
-      elements.html.lang = lang;
-      elements.heroTitle.textContent = conte.title[lang];
-      elements.heroIntro.textContent = conte.intro[lang];
-      elements.storyLabel.textContent = conte.label[lang];
-      elements.storyHeading.textContent = conte.title[lang];
-      elements.imageCaption.textContent = conte.imageCaption[lang];
-      elements.imagePath.textContent = "Image à venir · " + conte.images[0];
-      elements.audioNote.textContent = "Audio à ajouter · " + conte.audio[lang];
-      elements.storyText.innerHTML = conte.text[lang].map(paragraph => `<p>${paragraph}</p>`).join("");
-      elements.buttons.forEach(button => button.setAttribute("aria-pressed", String(button.dataset.lang === lang)));
-    }
+— Comment peux-tu avoir peur de la nuit, si tu es une étoile ? demanda une luciole en voletant près d'elle.
 
-    elements.buttons.forEach(button => button.addEventListener("click", () => renderLanguage(button.dataset.lang)));
-    renderLanguage("fr");
-  </script>
-<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"8607d2a720d14b038279025b2b5a82e5","spa":2}' crossorigin="anonymous"></script>
+— Justement, répondit Lila. La nuit est si grande… et moi, je suis si petite.
+
+La luciole fit clignoter sa lumière.
+
+— Regarde ! Moi aussi, je suis petite. Mais je peux éclairer juste assez pour trouver mon chemin.
+
+Lila essaya de briller. Une minuscule étincelle apparut… puis s'éteignit.
+
+Un hibou passa près d'elle, en battant doucement des ailes.
+
+— Hou-hou ! La nuit n'est pas vide, dit-il. Écoute.
+
+Lila tendit l'oreille. Elle entendit le vent dans les feuilles, le chant d'un grillon et le bruit paisible d'un ruisseau.
+
+La nuit n'était peut-être pas si effrayante, après tout.
+
+En bas, dans un petit chemin, un garçon nommé Émile rentrait chez lui. Mais un gros nuage cachait la lune, et Émile ne voyait presque plus où il allait.
+
+— Oh non… Je ne retrouve plus le chemin ! murmura-t-il.
+
+La luciole vola jusqu'à lui, mais sa petite lumière ne suffisait pas. Le hibou essaya de montrer la direction, mais Émile ne le distinguait pas dans l'obscurité.
+
+Alors Lila pensa à tous ceux qui l'avaient aidée. Elle prit une grande inspiration… et fit briller toute sa lumière.
+
+Une lueur douce éclaira le sentier, juste assez pour montrer à Émile le chemin jusqu'à sa maison.
+
+— Merci, petite étoile ! cria-t-il en agitant la main.
+
+Lila sourit. Elle n'était peut-être pas la plus brillante du ciel, mais sa lumière avait compté.
+
+Depuis cette nuit-là, Lila n'eut plus peur du noir. Elle savait qu'on pouvait être petite… et faire une grande différence.
+
+Et chaque soir, elle brillait tout doucement, pour tous ceux qui avaient besoin d'un peu de lumière.`,
+    audio: "histoire1_fr.mp3"
+  },
+  en: {
+    text: `Every evening, when the sun went down, the stars lit up one by one in the sky.
+
+All of them… except Lila.
+
+Lila was a very small star. She shone so softly that she was afraid no one would see her. And besides, she was afraid of the dark.
+
+"How can you be afraid of the night, if you're a star?" asked a firefly, fluttering near her.
+
+"That's exactly why," replied Lila. "The night is so big… and I'm so small."
+
+The firefly flickered her light.
+
+"Look! I'm small too. But I can light up just enough to find my way."
+
+Lila tried to shine. A tiny spark appeared… then faded away.
+
+An owl flew by, gently flapping its wings.
+
+"Hoo-hoo! The night isn't empty," he said. "Listen."
+
+Lila listened closely. She heard the wind in the leaves, a cricket singing, and the peaceful sound of a stream.
+
+Maybe the night wasn't so scary after all.
+
+Down below, on a small path, a boy named Emile was walking home. But a big cloud was hiding the moon, and Emile could barely see where he was going.
+
+"Oh no… I can't find my way!" he whispered.
+
+The firefly flew to him, but her tiny light wasn't enough. The owl tried to show the direction, but Emile couldn't see him in the darkness.
+
+So Lila thought of everyone who had helped her. She took a deep breath… and let all her light shine.
+
+A soft glow lit up the path, just enough to show Emile the way home.
+
+"Thank you, little star!" he shouted, waving his hand.
+
+Lila smiled. She might not be the brightest star in the sky, but her light had mattered.
+
+From that night on, Lila was never afraid of the dark again. She knew that you could be small… and still make a big difference.
+
+And every evening, she shone gently, for everyone who needed a little light.`,
+    audio: "histoire1_en.mp3"
+  },
+  es: {
+    text: `Cada noche, cuando el sol se ponía, las estrellas se encendían una a una en el cielo.
+
+Todas… menos Lila.
+
+Lila era una estrella muy pequeña. Brillaba tan suavemente que temía que nadie la viera. Además, tenía miedo de la oscuridad.
+
+—¿Cómo puedes tener miedo de la noche, si eres una estrella? —preguntó una luciérnaga revoloteando cerca de ella.
+
+—Precisamente por eso —respondió Lila—. La noche es tan grande… y yo soy tan pequeña.
+
+La luciérnaga hizo parpadear su luz.
+
+—¡Mira! Yo también soy pequeña. Pero puedo iluminar lo suficiente para encontrar mi camino.
+
+Lila intentó brillar. Apareció una diminuta chispa… y luego se apagó.
+
+Un búho pasó cerca de ella, batiendo suavemente sus alas.
+
+—¡Uhu! La noche no está vacía —dijo—. Escucha.
+
+Lila prestó atención. Escuchó el viento en las hojas, el canto de un grillo y el sonido tranquilo de un arroyo.
+
+Tal vez la noche no era tan aterradora, después de todo.
+
+Más abajo, en un pequeño camino, un niño llamado Emile regresaba a casa. Pero una gran nube ocultaba la luna, y Emile apenas podía ver por dónde caminaba.
+
+—Oh no… ¡No encuentro el camino! —susurró.
+
+La luciérnaga voló hacia él, pero su pequeña luz no era suficiente. El búho intentó mostrarle la dirección, pero Emile no podía verlo en la oscuridad.
+
+Entonces Lila pensó en todos los que la habían ayudado. Tomó una gran bocanada de aire… e hizo brillar toda su luz.
+
+Un suave resplandor iluminó el sendero, lo justo para mostrarle a Emile el camino a casa.
+
+—¡Gracias, pequeña estrella! —gritó él, agitando la mano.
+
+Lila sonrió. Tal vez no era la más brillante del cielo, pero su luz había importado.
+
+Desde esa noche, Lila nunca más tuvo miedo de la oscuridad. Sabía que se podía ser pequeña… y aun así, hacer una gran diferencia.
+
+Y cada noche, brillaba suavemente, para todos los que necesitaban un poco de luz.`,
+    audio: "histoire1_es.mp3"
+  },
+  it: {
+    text: `Ogni sera, quando il sole tramontava, le stelle si accendevano una dopo l'altra nel cielo.
+
+Tutte… tranne Lila.
+
+Lila era una stella molto piccola. Brillava così debolmente che temeva di non essere vista. E poi, aveva paura del buio.
+
+— Come puoi avere paura della notte, se sei una stella? — chiese una lucciola, svolazzando vicino a lei.
+
+— Proprio per questo — rispose Lila. — La notte è così grande… e io sono così piccola.
+
+La lucciola fece lampeggiare la sua luce.
+
+— Guarda! Anch'io sono piccola. Ma posso illuminare quel tanto che basta per trovare la strada.
+
+Lila provò a brillare. Apparve una minuscola scintilla… poi si spense.
+
+Un gufo passò vicino a lei, sbattendo dolcemente le ali.
+
+— Hu-hu! La notte non è vuota — disse. — Ascolta.
+
+Lila tese l'orecchio. Sentì il vento tra le foglie, il canto di un grillo e il suono tranquillo di un ruscello.
+
+Forse la notte non era poi così spaventosa.
+
+Più in basso, su un piccolo sentiero, un bambino di nome Emile stava tornando a casa. Ma una grande nuvola nascondeva la luna, e Emile riusciva a malapena a vedere dove stava andando.
+
+— Oh no… Non trovo più la strada! — sussurrò.
+
+La lucciola volò verso di lui, ma la sua piccola luce non bastava. Il gufo cercò di indicargli la direzione, ma Emile non riusciva a vederlo nel buio.
+
+Allora Lila pensò a tutti quelli che l'avevano aiutata. Fece un respiro profondo… e fece brillare tutta la sua luce.
+
+Un dolce bagliore illuminò il sentiero, quel tanto che bastava per mostrare a Emile la strada di casa.
+
+— Grazie, piccola stella! — gridò lui, agitando la mano.
+
+Lila sorrise. Forse non era la stella più brillante del cielo, ma la sua luce aveva contato.
+
+Da quella notte, Lila non ebbe più paura del buio. Sapeva che si poteva essere piccoli… e fare comunque una grande differenza.
+
+E ogni sera, brillava dolcemente, per tutti coloro che avevano bisogno di un po' di luce.`,
+    audio: "histoire1_it.mp3"
+  },
+  zh: {
+    text: `每天傍晚，当太阳落山时，星星们会一颗接一颗地在天空中亮起来。
+
+所有的星星……除了莉拉。
+
+莉拉是一颗非常小的星星。她发出的光非常柔和，她担心没有人能看见她。而且，她害怕黑暗。
+
+"你是一颗星星，怎么会害怕夜晚呢？"一只萤火虫在她身边飞舞着问道。
+
+"正因为如此，"莉拉回答说。"夜晚这么大……而我这么小。"
+
+萤火虫闪烁着自己的光。
+
+"看！我也很小。但我能发出足够的光，帮我找到路。"
+
+莉拉试着发光。一个微小的火花出现了……然后又熄灭了。
+
+一只猫头鹰飞过她身边，轻轻地扇动着翅膀。
+
+"呼呼！夜晚并不是空的，"他说。"你听。"
+
+莉拉仔细聆听。她听到了树叶间的风声、蟋蟀的歌声，还有小溪平静的流水声。
+
+也许夜晚并没有那么可怕。
+
+在下面的小路上，一个叫埃米尔的男孩正走在回家的路上。但一大片乌云遮住了月亮，埃米尔几乎看不清前方的路。
+
+"哦，不……我找不到路了！"他小声说道。
+
+萤火虫飞到他身边，但她微弱的光芒不够用。猫头鹰试图为他指路，但埃米尔在黑暗中看不见他。
+
+于是，莉拉想起了所有帮助过她的朋友。她深深吸了一口气……然后让自己所有的光芒都闪耀起来。
+
+一道柔和的光照亮了小路，刚好足够让埃米尔看清回家的路。
+
+"谢谢你，小星星！"他挥着手喊道。
+
+莉拉微笑了。也许她不是天空中最亮的星星，但她的光芒意义重大。
+
+从那晚起，莉拉再也不怕黑暗了。她明白了，即使很渺小……也能带来巨大的改变。
+
+从此，每个夜晚，她都会温柔地发光，为所有需要一点光亮的人。`,
+    audio: "histoire1_zh.mp3"
+  }
+};
+
+const images = [
+  "histoire1_image1.jpg",
+  "histoire1_image2.jpg",
+  "histoire1_image3.jpg"
+];
+
+function loadLanguage(lang) {
+  const story = stories[lang];
+  document.getElementById('story-text').innerText = story.text;
+  document.getElementById('audio-player').src = story.audio;
+
+  const container = document.getElementById('images-container');
+  container.innerHTML = "";
+  images.forEach(img => {
+    const imageElement = document.createElement('img');
+    imageElement.src = img;
+    container.appendChild(imageElement);
+  });
+}
+</script>
+
 </body>
 </html>
