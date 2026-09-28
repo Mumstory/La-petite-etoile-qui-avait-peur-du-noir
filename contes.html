@@ -19,6 +19,9 @@
 <div id="language-buttons">
   <button onclick="loadLanguage('fr')">🇫🇷 Français</button>
   <button onclick="loadLanguage('en')">🇬🇧 English</button>
+  <button onclick="loadLanguage('es')">🇪🇸 Español</button>
+  <button onclick="loadLanguage('it')">🇮🇹 Italiano</button>
+  <button onclick="loadLanguage('zh')">🇨🇳 中文</button>
 </div>
 
 <div id="story-text">Choisis une langue pour commencer.</div>
@@ -35,11 +38,23 @@ const stories = {
   en: {
     text: "Once upon a time, in a distant forest, a little star was afraid of the dark...",
     audio: "histoire1_en.mp3"
+  },
+  es: {
+    text: "Había una vez, en un bosque lejano, una pequeña estrella que tenía miedo de la oscuridad...",
+    audio: "histoire1_es.mp3"
+  },
+  it: {
+    text: "C'era una volta, in una foresta lontana, una piccola stella che aveva paura del buio...",
+    audio: "histoire1_it.mp3"
+  },
+  zh: {
+    text: "从前，在遥远的森林里，有一颗害怕黑暗的小星星...",
+    audio: "histoire1_zh.mp3"
   }
   // 👉 Pour ajouter une langue plus tard, copie ce modèle :
-  // es: {
-  //   text: "Había una vez...",
-  //   audio: "histoire1_es.mp3"
+  // de: {
+  //   text: "Es war einmal...",
+  //   audio: "histoire1_de.mp3"
   // }
 };
 
